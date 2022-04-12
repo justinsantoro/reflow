@@ -2,11 +2,14 @@ package wordwrap
 
 import (
 	"bytes"
+	"io"
 	"strings"
 	"unicode"
 
 	"github.com/muesli/reflow/ansi"
 )
+
+type NewLineFunc func(w io.Writer) int
 
 var (
 	defaultBreakpoints = []rune{'-'}
@@ -21,6 +24,7 @@ type WordWrap struct {
 	Breakpoints  []rune
 	Newline      []rune
 	KeepNewlines bool
+	NewLineFunc  NewLineFunc
 
 	buf   bytes.Buffer
 	space bytes.Buffer
@@ -38,6 +42,7 @@ func NewWriter(limit int) *WordWrap {
 		Breakpoints:  defaultBreakpoints,
 		Newline:      defaultNewline,
 		KeepNewlines: true,
+		NewLineFunc:  nil,
 	}
 }
 
@@ -73,8 +78,12 @@ func (w *WordWrap) addWord() {
 }
 
 func (w *WordWrap) addNewLine() {
-	_, _ = w.buf.WriteRune('\n')
-	w.lineLen = 0
+	if w.NewLineFunc != nil {
+		w.lineLen = w.NewLineFunc(&w.buf)
+	} else {
+		_, _ = w.buf.WriteRune('\n')
+		w.lineLen = 0
+	}
 	w.space.Reset()
 }
 
