@@ -6,7 +6,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/muesli/reflow/ansi"
+	"github.com/justinsantoro/reflow/ansi"
 )
 
 type NewLineFunc func(w io.Writer) int

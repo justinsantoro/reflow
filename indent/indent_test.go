@@ -6,7 +6,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/muesli/reflow/ansi"
+	"github.com/justinsantoro/reflow/ansi"
 )
 
 func TestIndent(t *testing.T) {

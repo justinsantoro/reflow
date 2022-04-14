@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/mattn/go-runewidth"
-	"github.com/muesli/reflow/ansi"
+	"github.com/justinsantoro/reflow/ansi"
 )
 
 type PaddingFunc func(w io.Writer)
